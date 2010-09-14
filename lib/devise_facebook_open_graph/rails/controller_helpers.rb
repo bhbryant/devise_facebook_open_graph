@@ -3,7 +3,7 @@
 module DeviseFacebookOpenGraph
   module Rails
     module ControllerHelpers
-      extend ActiveSupport::Concern
+      
 
       included do
         helper_method :facebook_session
