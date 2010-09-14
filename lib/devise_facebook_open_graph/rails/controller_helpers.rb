@@ -5,8 +5,10 @@ module DeviseFacebookOpenGraph
     module ControllerHelpers
       
 
-      included do
-        helper_method :facebook_session
+      def self.included(base)
+        base.class_eval do
+          helper_method :facebook_session
+        end
       end
 
       def facebook_session
