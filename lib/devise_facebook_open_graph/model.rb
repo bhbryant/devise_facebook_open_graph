@@ -4,7 +4,7 @@ require 'devise'
 module Devise
   module Models
     module FacebookOpenGraphAuthenticatable
-      extend ActiveSupport::Concern
+    
 
       included do
         attr_accessor :facebook_session
