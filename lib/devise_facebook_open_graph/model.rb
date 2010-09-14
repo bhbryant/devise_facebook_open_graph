@@ -6,8 +6,10 @@ module Devise
     module FacebookOpenGraphAuthenticatable
     
 
-      included do
-        attr_accessor :facebook_session
+      def self.included(base) do
+        base.class_eval do
+          attr_accessor :facebook_session
+        end
       end
 
       module ClassMethods
