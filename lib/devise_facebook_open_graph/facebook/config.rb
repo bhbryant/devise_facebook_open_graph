@@ -28,7 +28,8 @@ module DeviseFacebookOpenGraph
         end
 
         def sdk_java_script_source
-          "http://connect.facebook.net/#{I18n.locale}/all.js"
+          #"http://connect.facebook.net/#{I18n.locale}/all.js"
+          "http://connect.facebook.net/en_US/all.js"
         end
 
         def facebook_session_name
