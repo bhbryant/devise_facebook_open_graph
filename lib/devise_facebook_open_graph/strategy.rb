@@ -11,6 +11,7 @@ module Devise
         # current application's domain cookies.
         #
         def valid?
+          
           mapping.to.respond_to?(:authenticate_facebook_user) && request.cookies.has_key?(::DeviseFacebookOpenGraph::Facebook::Config.facebook_session_name)
         end
 
@@ -21,10 +22,14 @@ module Devise
         # Tries to auto create the user if configured to do so.
         #
         def authenticate!
+          
           session = DeviseFacebookOpenGraph::Facebook::Session.new(request.cookies)
+          
+          
 
           if session.valid?
             klass = mapping.to
+            debugger
             user = klass.authenticate_facebook_user(session.uid)
 
             if user.blank? && klass.facebook_auto_create_account?
@@ -32,17 +37,22 @@ module Devise
               user.facebook_session = session
               user.set_facebook_credentials_from_session!
 
-              begin
-                user.before_create_by_facebook if user.respond_to?(:before_create_by_facebook)
-                user.save(klass.run_validations_when_creating_facebook_user)
-                user.after_create_by_facebook if user.respond_to?(:after_create_by_facebook)
-              rescue ActiveRecord::RecordNotUnique
-                fail!(:not_unique_user_on_creation) and return
-              end
 
+              
+                user.before_create_by_facebook if user.respond_to?(:before_create_by_facebook)
+                # need to validate and ensure uid is unique
+                
+               
+                fail!(:not_unique_user_on_creation) and return unless klass.unique_uid?(session.uid)
+                
+                user.save
+                
+             
               if klass.run_validations_when_creating_facebook_user && !user.persisted?
                 fail!(:invalid_facebook_user_on_creation) and return
               end
+              
+              user.after_create_by_facebook if user.respond_to?(:after_create_by_facebook)
             end
 
             if user.present? && user.persisted?

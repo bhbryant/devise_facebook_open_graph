@@ -23,6 +23,20 @@ module Devise
   #
   mattr_accessor :facebook_uid_field
   @@facebook_uid_field = :facebook_uid
+  
+    #
+  # Specifies database column name to store the facebook auth toke id.
+  #
+  mattr_accessor :facebook_token_field
+  @@facebook_uid_field = :facebook_token
+
+
+  # Instructs this gem to auto create an account for facebook
+  # users which have not visited before
+  #
+  mattr_accessor :save_facebook_token
+  @@save_facebook_token = true
+
 
   #
   # Instructs this gem to auto create an account for facebook
